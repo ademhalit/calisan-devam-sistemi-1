@@ -1,2 +1,213 @@
-aaaaaaaaaa
-bbbbbbbbbbbbbbbbbbb
+void parola()
+
+{
+    int sifre=1234;
+    int sifre_al;
+    printf("Yetkili Menusune ulasmak icin 4 haneli sifreyi giriniz: ");
+    scanf("%d",&sifre_al);
+    system("cls");
+    if (sifre==sifre_al ) {
+        yetkiliMenu2();
+    }
+    else {
+        printf("Parolayi yanlis girdiniz,tekrar deneyiniz:");
+        parola_tekrar();
+    }
+
+
+}
+void parola_tekrar()
+{
+    int sifre=1234;
+    int sifre_al;
+    scanf("%d",&sifre_al);
+    if (sifre==sifre_al)
+    {
+        yetkiliMenu2();
+        system("cls");
+    }
+    else {
+        parola();
+    }
+
+}
+
+
+// Kişi struct'ı
+struct Kisi {
+    char isim[50];
+    int sicilNo;
+};
+
+// Kisi struct'ı tanımlanıyor
+
+
+
+// Dosyadaki son sicil numarasını okuyan fonksiyon
+int sonSicilNoOku() {
+    FILE *dosya = fopen("personel.txt", "r");
+    if (dosya == NULL) {
+        printf("Dosya acma hatasi!\n");
+        return 0 ; // Dosya okunamazsa 0 döndürülebilir veya bir hata işlemi yapılabilir.
+    }
+
+    int sonSicilNo = 1000; // Varsayılan başlangıç sicil numarası
+    char isim[50];
+    int sicilNo;
+
+    while (fscanf(dosya, "%s %d", isim, &sicilNo) == 2) {
+        sonSicilNo = sicilNo; // Dosyadaki son sicil numarasını güncelle //burada 2 kullanma sebebimiz iki fonksiyonun da doğru olması durumunda 1+1=2olması
+    }
+
+    fclose(dosya);
+    return sonSicilNo;
+}
+
+// Yeni kişi ekleyen fonksiyon
+void yeniKisiEkle() {
+    FILE *dosya;
+    struct Kisi {
+        char isim[50];
+        int sicilNo;
+    };
+
+    dosya = fopen("personel.txt", "a"); // "a" modu dosyayı ek modunda açar
+
+    if (dosya == NULL) {
+        printf("Dosya acma hatasi!\n");
+        return;
+    }
+
+    struct Kisi kisiler[max_kisi];
+    int kisiSayisi;
+
+    printf("Kac kisi kayit edilecek? (en fazla %d): ", max_kisi);
+    scanf("%d", &kisiSayisi);
+
+    if (kisiSayisi > max_kisi) {
+        printf("Hata: Maksimum kisi sayisini astiniz!\n");
+        fclose(dosya);
+        return;
+    }
+
+    // Dosyadaki son sicil numarasını oku
+    int sonSicilNo = sonSicilNoOku();
+
+    int i;
+    for (i = 0; i < kisiSayisi; i++) {
+        printf("Lutfen %d. kisinin adini girin: ", i + 1);
+        scanf("%s", kisiler[i].isim);
+
+        // Sicil numarasını bir önceki sicil numarasından bir sonraki değere ayarla
+        kisiler[i].sicilNo = sonSicilNo + 1;
+
+        // Dosyaya kişi bilgilerini yaz
+        fprintf(dosya, "%s %d\n", kisiler[i].isim, kisiler[i].sicilNo);
+        printf("Kisi kaydedildi! Isim: %s, Sicil No: %d\n", kisiler[i].isim, kisiler[i].sicilNo);
+
+        // Son sicil numarasını güncelle
+        sonSicilNo = kisiler[i].sicilNo;
+    }
+
+    // Dosyayı kapat
+    fclose(dosya);
+}
+
+
+void yetkiliMenu2() {
+    int yetkiliSecim;
+    printf("Yetkili Menusune Hosgeldiniz\n\n");
+    printf("1. Istenilen calisan icin rapor olustur: \n");
+    printf("2. Tum calisan icin rapor olustur: \n");
+    printf("3. Yeni personel ekle: \n");
+    printf("Seciminiz:");
+    scanf("%d", &yetkiliSecim);
+
+    switch (yetkiliSecim) {
+        case 1:
+
+            break;
+        case 2:
+
+            break;
+        case 3:
+            yeniKisiEkle();
+            break;
+        default:
+            printf("Geçersiz seçim!\n");
+            break;
+    }
+}
+
+// Kisi struct'ı tanımlanıyor
+struct AKisi {
+    char isim[50];
+    int sicilNo;
+};
+
+// Dosyadaki isim ve sicil numarası ile eşleşme kontrolü yapan fonksiyon
+
+ int devam() {
+
+     char arananIsim[50];
+     int  arananSicilNo;
+
+    FILE *dosya = fopen("personel.txt", "r");
+
+    if (dosya == NULL) {
+        printf("Dosya acma hatasi!\n");
+        return 0; // Dosya okunamazsa 0 döndürülebilir veya bir hata işlemi yapılabilir.
+    }
+
+    struct AKisi kisiler;
+    int eslesme = 0; //return 0 ile karşılaştığında işlevi döndürdüğü i.in her yanlış girmeden işlev tekrarlanacak
+
+
+    // Kullanıcıdan aranan isim ve sicil numarasını al
+    printf("Aranan Ismi Girin: ");
+    scanf("%s", arananIsim);
+
+    printf("Aranan Sicil No'yu Girin: ");
+    scanf("%d", &arananSicilNo);
+
+    // Dosyadan okuma işlemi
+    while (fscanf(dosya, "%s %d", kisiler.isim, &kisiler.sicilNo) == 2) {
+        int durum =0;
+        if (strcmp(kisiler.isim,arananIsim) == 0 && kisiler.sicilNo == arananSicilNo) {
+            eslesme = 1; // İsim ve sicil numarası eşleşiyor
+            printf("Girisiniz tamamlanmistir");
+
+            durum = 1;
+
+
+
+            break;
+            // Eşleşme durumunda döngüden çık
+        }
+
+    }
+
+    fclose(dosya);
+    return eslesme;
+
+}
+
+void satirbulma()
+{
+    FILE *dosya =fopen(".txt", "w");
+    char karakter;
+    int satirsayisi;
+    while (feof(dosya) == NULL)
+    {
+
+        karakter = getc(dosya);
+        if(karakter=='\n')
+        {
+            satirsayisi++;
+        }
+    }
+
+    system("pause");
+    return;
+
+}
