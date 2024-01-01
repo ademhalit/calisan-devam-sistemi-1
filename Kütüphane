@@ -1,0 +1,19 @@
+#ifndef yetkili_menu
+#define yetkili_menu
+
+int devam();
+int menu();
+
+void parola();
+void yetkiliMenu2();
+
+void parola_tekrar();
+void yeniKisiEkle();
+
+int sonSicilNoOku();
+
+int tum_calisanlar();
+void dosyayaKaydet();
+void satirbulma();
+
+#endif
