@@ -31,23 +31,6 @@ void dosyaAcma() {
     }
 
     fclose(dosya);
-
-    FILE *dosya1 = fopen("personel.txt", "r");
-    if (dosya == NULL) {
-        printf("Dosya acma hatasi!\n");
-        return;
-    }
-
-    // Her bir personeli dosyadan oku ve kisiler dizisine yükle
-    while (fscanf(dosya, "%s %d", kisiler[eklenenKisiSayisi].isim, &kisiler[eklenenKisiSayisi].sicilNo) == 2) {
-        // Burada devam durumlarını okuyarak kisiler dizisine ekle
-        for (int gun = 0; gun < max_gun; gun++) {
-            fscanf(dosya, "%d", &kisiler[eklenenKisiSayisi].gunler[gun]);
-        }
-        eklenenKisiSayisi++;
-    }
-
-    fclose(dosya);
 }
 
 void dosyaKaydet() {
