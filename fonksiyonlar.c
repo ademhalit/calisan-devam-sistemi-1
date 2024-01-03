@@ -14,26 +14,6 @@ struct Kisi {
     int gunler[max_gun];
 } kisiler[max_kisi];
 
-
-/*void dosyaAcma() {
-// Dosyadan personel bilgilerini oku ve kisiler dizisine yükle
- FILE *dosya = fopen("personel.txt", "r");
-  if (dosya == NULL) {
-  printf("Dosya acma hatasi!\n");
-  return ;
-  }
-
-  // Her bir personeli dosyadan oku ve kisiler dizisine ekle
-  while (fscanf(dosya, "%s %d", kisiler[eklenenKisiSayisi].isim, &kisiler[eklenenKisiSayisi].sicilNo) == 2) {
-  // Burada gerekirse devam durumu için varsayılan değerleri de atayabilirsiniz.
-  eklenenKisiSayisi++;
-  }
-
-  fclose(dosya);
-
-  return ;
-}
-*/
 void dosyaAcma() {
     FILE *dosya = fopen("personel.txt", "r");
     if (dosya == NULL) {
