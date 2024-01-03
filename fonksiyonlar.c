@@ -22,8 +22,11 @@ void dosyaAcma() {
     }
 
     // Her bir personeli dosyadan oku ve kisiler dizisine yükle
+    
     while (fscanf(dosya, "%s %d", kisiler[eklenenKisiSayisi].isim, &kisiler[eklenenKisiSayisi].sicilNo) == 2) {
+        
         // Burada devam durumlarını okuyarak kisiler dizisine ekle
+        
         for (int gun = 0; gun < max_gun; gun++) {
             fscanf(dosya, "%d", &kisiler[eklenenKisiSayisi].gunler[gun]);
         }
@@ -60,13 +63,15 @@ void devamDurumuGuncelle(int index, int gun, int durum) {
 }
 
 // kişinin devam durumunu kontrol eden fonksiyon
+
 int devamDurumuKontrol(int index, int gun) {
     return kisiler[index].gunler[gun - 1];
 }
 
 //yetkili tüm çalışanlar için devam raporunu 31 gün için istediğinde kisiler adlı dizide ilk kişiden itibaren sicil no, isim ve devam durumunu yazdıran fonksiyon
+
 void raporOlustur() {
-    printf("Devam Raporu:\n");
+printf("Devam Raporu:\n");
 
     for (int i = 0; i < eklenenKisiSayisi; i++) {
         if (kisiler[i].sicilNo != 0) {
@@ -83,6 +88,7 @@ void raporOlustur() {
 }
 
 //yetkili menüsüne ulaşmak için girilmesi gereken şifre ve bu şifreyle girilen şifreyi karşılaştırıp aynı değerler ise menuye yönlendiren fonksiyon
+
 void parola() {
     int dogru_sifre = 1234;
     int girilen_sifre;
@@ -102,6 +108,7 @@ void parola() {
 
 
 //burada ise her yeni kişi eklendiğinde dosyadaki sicil no nun sıfırlanmaması için yazdığımız,son sicil no yu dosyada tutması için yazılan fonksiyon
+
 int sonSicilNoOku() {
     FILE *dosya = fopen("personel.txt", "r");
     if (dosya == NULL) {
@@ -109,11 +116,12 @@ int sonSicilNoOku() {
         return 0;
     }
 
-    int sonSicilNo = 1000; // personellerin sicil no larının okunaklı olması için belirlediğimiz başlangıç sicil numarası
+    int sonSicilNo = 1000;    // personellerin sicil no larının okunaklı olması için belirlediğimiz başlangıç sicil numarası
     char isim[50];
     int sicilNo;
 
     //burada, dosya tarafından işaret edilen dosyadan bir satır okur,bir string (isim) ve bir tamsayı değeri (sicil no) okur, ikisi de dosyadan gelen değerlere atanır.
+    
     while (fscanf(dosya, "%s %d", isim, &sicilNo) == 2) {
         sonSicilNo = sicilNo;
     }
@@ -123,6 +131,7 @@ int sonSicilNoOku() {
 }
 
 // bu fonksiyon ise yetkilinin personel eklemesine olanak sağlayan,eklediğinde ise o kişiye son sicil no ne ise bir fazlasını o kişiye atar ve kaydeder
+
 void yeniKisiEkle() {
     FILE *dosya;
     dosya = fopen("personel.txt", "a"); // a modu dosya yok ise açar var ise üstüne yazar
@@ -133,6 +142,7 @@ void yeniKisiEkle() {
     }
 
     // Dosyadaki son sicil numarasını oku
+    
     int sonSicilNo = sonSicilNoOku();
 
     int kisiSayisi;
@@ -151,21 +161,26 @@ void yeniKisiEkle() {
         scanf("%s", kisiler[i].isim);
 
         // girilen kişinin sicil numarasını bir önceki personelin sicil numarasından bir sonraki değere ata
+        
         kisiler[i].sicilNo = sonSicilNo + 1;
 
         // dosyaya kişi bilgilerini işle
+        
         fprintf(dosya, "%s %d\n", kisiler[i].isim, kisiler[i].sicilNo);
         printf("Kisi kaydedildi! Isim: %s, Sicil No: %d\n", kisiler[i].isim, kisiler[i].sicilNo);
         eklenenKisiSayisi++; // her kişi eklendiğinde max kisi sayısından azaltarak şirketin kapasitesini aşmamasını sağlıyor
         // son sicil numarasını güncellemesini sağlıyor
+       
         sonSicilNo = kisiler[i].sicilNo;
     }
 
     // Dosyayı kapat
+    
     fclose(dosya);
 }
 
 //yetkili menunun seçim ekranını yazdıran fonksiyon
+
 void yetkiliMenu2() {
     int yetkiliSecim;
     printf("Yetkili Menusune Hosgeldiniz\n\n");
@@ -191,6 +206,7 @@ void yetkiliMenu2() {
 
 
 //personel ismini ve sicil nosunu girdiğinde o kişi için hangi gündelerse kisiler dizisindeki devam durumunu o gün için güncelliyor
+
 int devam() {
     char arananIsim[50];
     int arananSicilNo;
@@ -206,6 +222,7 @@ int devam() {
     int eslesme = 0; // aşağıda kontrol edilecek olan eşleşme durumu için gösterge
 
     // personelden aranan isim ve sicil numarasını al
+    
     printf("Isminizi Girin: ");
     scanf("%s", arananIsim);
 
@@ -213,6 +230,7 @@ int devam() {
     scanf("%d", &arananSicilNo);
 
     // dosyayı baştan sona oku ve eşleşmeyi ikili şekilde kontrol et
+    
     for (int i = 0; i < eklenenKisiSayisi; i++) {
 
         //burada dosyadan 1 string 1 de integer değeri tarıyor ve tarama her ikisi için de başarılıysa 1+1=2 oluyor ve koşul sağlanıyor
@@ -232,11 +250,12 @@ int devam() {
                 break;
             }
         } else {
-            break;  // dosya sonuna gelindiği için döngüyü sonlandır
+            break;   // dosya sonuna gelindiği için döngüyü sonlandır
         }
     }
 
     //eğer eslesme değeri 0 ise, yani isim ve sicil numarası ile eşleşmemişse bu koşul sağlanır
+   
     if (!eslesme) {
         printf("Yanlis sicil no veya isim girdiniz, tekrar deneyiniz\n");
     }
@@ -252,6 +271,7 @@ int okuGun() {
 
     gunler= fopen("gun.txt", "r");
     if (gunler== NULL) {
+       
         // Dosya yoksa veya okuma hatası olursa, varsayılan olarak 1 günle başla
         return 1;
     }
@@ -312,12 +332,13 @@ int gungecis() {
 int dosyasilme(){
     FILE *dosya;
     // "dosya.txt" adlı dosyayı sıfırla (içeriğini sil)
+    
     dosya= fopen("personel.txt","w");
     if (dosya== NULL) {
         fprintf(stderr, "Dosya acma hatasi\n");
         return 1;
     }
-    fprintf(dosya, ""); // İçeriği sıfırla (boş bir şekilde yazabilirsiniz).
+    fprintf(dosya, ""); // dosya içeriğini sıfırla
 
     fclose(dosya);
 
@@ -330,7 +351,7 @@ int dosyasilme(){
         fprintf(stderr, "Dosya acma hatasi\n");
         return 1;
     }
-    fprintf(gunler, ""); // İçeriği sıfırla (boş bir şekilde yazabilirsiniz).
+    fprintf(gunler, ""); // içeriği sıfırla
 
     fclose(gunler);
 
