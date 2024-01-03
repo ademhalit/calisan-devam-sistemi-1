@@ -7,13 +7,19 @@ int menu();
 void parola();
 void yetkiliMenu2();
 
-void parola_tekrar();
+
 void yeniKisiEkle();
 
 int sonSicilNoOku();
 
-int tum_calisanlar();
-void dosyayaKaydet();
-void satirbulma();
-
+int gungecis();
+void yazGun(int gun);
+int dosyasilme();
+int okuGun();
+void devamDurumuGuncelle(int index, int gun, int durum);
+int devamDurumuKontrol(int index, int gun);
+void raporOlustur();
+void sifirlaGun();
+void dosyaAcma();
+void dosyaKaydet();
 #endif
